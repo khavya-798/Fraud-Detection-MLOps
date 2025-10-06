@@ -40,7 +40,16 @@ st.title("Credit Card Fraud Detection App")
 # --- FIX: USE THE CORRECT PATH TO THE IMAGE ---
 st.image("frontend/image.png")
 
-st.markdown("## About\nThis application predicts if a transaction is fraudulent.")
+# --- FIX: Updated "About" section to remove dead links and irrelevant info ---
+st.markdown("""
+## About
+This application uses a pre-trained XGBoost model to predict if a credit card transaction is fraudulent. 
+
+The model was trained on an anonymized dataset from Kaggle. This user interface allows you to input values for all the features to get a real-time prediction.
+
+This project demonstrates an end-to-end MLOps workflow, from model training to deployment as an interactive web application.
+""")
+
 
 st.sidebar.header('Transaction Features')
 amount_input = st.sidebar.number_input("Transaction Amount ($)", min_value=0.0, value=100.0)
