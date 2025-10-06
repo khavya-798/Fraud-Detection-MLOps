@@ -1,0 +1,12 @@
+
+fastapi
+aiofiles
+gunicorn
+uvicorn
+pandas      
+scikit-learn 
+scipy
+joblib
+numpy
+pydantic
+xgboost   

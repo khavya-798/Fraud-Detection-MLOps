@@ -1,0 +1,62 @@
+# docker-compose.yml - Final MLOps Configuration
+# NOTE: Removed obsolete 'version: "3.7"' line to prevent build warnings.
+
+services:
+  # ----------------------------------------------------
+  # 1. BACKEND SERVICE (FastAPI / XGBoost Model)
+  # ----------------------------------------------------
+  backend:
+    # Use the /backend folder as the build context, and look for Dockerfile inside it.
+    build: 
+      context: .
+      dockerfile: ./backend/Dockerfile
+    
+    ports:
+      - "8000:8000" # Map host port 8000 to container port 8000 (for API access/docs)
+    
+    networks:
+      AIservice:
+        aliases:
+          - backend.docker # Allows frontend to call the API using this alias
+          
+    # Mount necessary files: code and the model assets (.pkl)
+    volumes:
+      - ./backend:/app # Mount the code for the backend service
+      - ./models:/app/models # CRITICAL: Mounts the local models/ folder inside the container's /app directory
+
+    # Restart the container if it fails (for robustness)
+    restart: always
+
+
+  # ----------------------------------------------------
+  # 2. FRONTEND SERVICE (Streamlit UI)
+  # ----------------------------------------------------
+  frontend:
+    # Use the /frontend folder as the build context
+    build: 
+      context: .
+      dockerfile: ./frontend/Dockerfile
+      
+    ports:
+      - "8501:8501" # Map host port 8501 to container port 8501 (for browser access)
+    
+    networks:
+      AIservice:
+        aliases:
+          - frontend.docker
+          
+    depends_on:
+      - backend # Ensures the backend API starts before the frontend tries to connect
+      
+    # Mount the code for the frontend service
+    volumes:
+      - ./frontend:/app 
+
+    restart: always
+
+# ----------------------------------------------------
+# 3. NETWORK DEFINITION (The Fix for Inter-Container Communication)
+# ----------------------------------------------------
+networks:
+  AIservice:
+    driver: bridge # This forces Docker to create a single, internal network named AIservice
