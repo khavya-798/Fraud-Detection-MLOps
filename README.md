@@ -61,21 +61,7 @@ Frontend (Streamlit App): Open your browser and go to http://localhost:8501
 
 Backend (API Docs): You can access the API documentation at http://localhost:8000/docs
 
-📂 Project Structure
-Fraud-Detection-MLOps/
-├── .gitignore
-├── README.md
-├── backend/
-│   ├── app.py             # FastAPI application
-│   ├── Dockerfile         # Docker instructions for backend
-│   └── ...
-├── data/
-│   └── creditcard.csv     # Dataset (tracked by Git LFS)
-├── frontend/
-│   ├── streamlit_app.py   # Streamlit application
-│   ├── Dockerfile         # Docker instructions for frontend
-│   └── image.png
-├── models/
-│   ├── credit_fraud.pkl   # Trained XGBoost model
-│   └── scaler.pkl         # Fitted StandardScaler
-└── docker-compose.yml     # Docker Compose orchestration file
+
+<img width="1015" height="586" alt="image" src="https://github.com/user-attachments/assets/34e2f97b-72c1-4505-9a36-8932998ad086" />
+
+
