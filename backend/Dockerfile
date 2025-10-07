@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Copy the requirements file into the container
 # CRITICAL: This assumes requirements_api.txt is in the backend folder
-COPY ./backend/requirements_api.txt /app/requirements.txt
+COPY ./requirements.txt /app/requirements.txt
 
 # 2. Install all dependencies (FastAPI, XGBoost, Scikit-learn, etc.)
 RUN pip install --no-cache-dir -r /app/requirements.txt

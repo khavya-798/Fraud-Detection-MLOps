@@ -44,18 +44,27 @@ def read_root():
 # --- 3. PREDICTION ENDPOINT ---
 @app.post("/predict")
 def predict_fraud(data: TransactionData):
-    
     if MODEL is None or SCALER is None:
         raise HTTPException(status_code=500, detail="Model or scaler not loaded.")
 
     try:
         input_data_dict = data.dict()
-        input_df = pd.DataFrame([input_data_dict])
-        
-        features_to_scale = [col for col in input_df.columns if col != 'Time']
+
+        # Define feature order exactly as used in model training
+        feature_order = ["Time"] + [f"V{i}" for i in range(1, 29)] + ["Amount"]
+
+        # Create DataFrame with the correct column order
+        input_df = pd.DataFrame([input_data_dict], columns=feature_order)
+
+        # Scale all features except 'Time'
+        features_to_scale = [col for col in feature_order if col != "Time"]
         scaled_features = SCALER.transform(input_df[features_to_scale])
-        
-        prediction = MODEL.predict(scaled_features)
+
+        # Replace unscaled features with scaled features in the dataframe
+        input_df.loc[:, features_to_scale] = scaled_features
+
+        # Predict using the full input dataframe
+        prediction = MODEL.predict(input_df)
         is_fraud_value = int(prediction[0])
 
         return {

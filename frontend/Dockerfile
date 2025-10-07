@@ -9,7 +9,7 @@ ENV STREAMLIT_SERVER_ADDRESS="0.0.0.0"
 
 # Copy the requirements file for installation
 # CRITICAL: This assumes requirements.txt is in the frontend folder
-COPY ./frontend/requirements.txt /tmp/requirements.txt 
+COPY ./requirements.txt /tmp/requirements.txt
 
 # Set the working directory inside the container
 WORKDIR /app
